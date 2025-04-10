@@ -27,7 +27,7 @@ function FilmFilter() {
     return (
         <div>
             <h1>Filtro per genere di film</h1>
-            <select value={filteredFilm} onChange={changeGenre}>
+            <select value={selectedGenre} onChange={changeGenre}>
                 <option value=""></option>
                 <option>Fantascienza</option>
                 <option>Thriller</option>
