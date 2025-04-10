@@ -9,6 +9,9 @@ function FilmFilter() {
     // Salvare il genere selezionato
     const [selectedGenre, setSelectedGenre] = useState('');
 
+    //Salvare la ricerca utente
+    const [researchUser, setResearchUser] = useState("");
+
     // Funzione per cambiare il genere
     const changeGenre = (event) => {
         setSelectedGenre(event.target.value);
@@ -23,17 +26,35 @@ function FilmFilter() {
         }
     });
 
-    console.log(genres)
+    // console.log(genres)
+
+    //inserisco value utente
+
+    const onChangeResearchUser = (event) => {
+        setResearchUser(event.target.value)
+        // console.log(researchUser)
+    };
 
 
     //Aggiornare la lista
     useEffect(() => {
-        if (selectedGenre === '') {
-            setFilteredFilm(film);
-        } else {
-            setFilteredFilm(film.filter((film) => film.genre === selectedGenre));
+
+        let filmList = film;
+
+        if (selectedGenre !== "") {
+            filmList = filmList.filter((film) => film.genre === selectedGenre);
         }
-    }, [selectedGenre]);
+
+
+        if (researchUser !== "") {
+
+            filmList = filmList.filter((film) => film.title.includes(researchUser));
+        }
+
+        setFilteredFilm(filmList);
+
+
+    }, [selectedGenre, researchUser]);
 
 
     return (
@@ -50,12 +71,17 @@ function FilmFilter() {
             </select>
 
             <section>
+                <h2>Ricerca per nome</h2>
+                <input type="text" placeholder="inserisci nome del film" value={researchUser} onChange={onChangeResearchUser} />
+            </section>
+
+            <section>
                 <h2>Lista film filtrati</h2>
                 <ul>
                     {/* visualizzare film filtrati */}
-                    {filteredFilm.map((movie, index) => (
+                    {filteredFilm.map((film, index) => (
                         <li key={index}>
-                            {movie.title} "{movie.genre}"
+                            {film.title} "{film.genre}"
                         </li>
                     ))}
                 </ul>
