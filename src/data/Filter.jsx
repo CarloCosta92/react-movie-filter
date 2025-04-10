@@ -14,6 +14,18 @@ function FilmFilter() {
         setSelectedGenre(event.target.value);
     };
 
+    // creo variabile per i generi e metto condizione per togliere i duplicati
+
+    const genres = [];
+    film.forEach((film) => {
+        if (!genres.includes(film.genre)) {
+            genres.push(film.genre);
+        }
+    });
+
+    console.log(genres)
+
+
     //Aggiornare la lista
     useEffect(() => {
         if (selectedGenre === '') {
@@ -28,11 +40,13 @@ function FilmFilter() {
         <div>
             <h1>Filtro per genere di film</h1>
             <select value={selectedGenre} onChange={changeGenre}>
-                <option value=""></option>
-                <option>Fantascienza</option>
-                <option>Thriller</option>
-                <option>Romantico</option>
-                <option>Azione</option>
+                <option value="">Tutti i generi</option>
+                {genres.map((genre) => (
+                    <option key={genre} value={genre}>
+                        {genre}
+                    </option>
+                ))}
+
             </select>
 
             <section>
